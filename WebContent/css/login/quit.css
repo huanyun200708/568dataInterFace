@@ -1,0 +1,32 @@
+.button_zx{
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: #32ABA0; 
+    color: white; 
+    border: 0px solid #32ABA0;
+    left: 100px;
+    height:43px;
+    width:78px;
+}
+	
+	.button_zx:hover{
+	    background-color: #38b8ab;
+	    color: white;
+	}
+	.button_zx:active {
+		background-color: #00f0d8;
+		color: white;
+	}
+	.div_button{
+	position: absolute;
+    right: 1%;
+    top: 2%;
+    z-index:1000;
+	}

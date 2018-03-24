@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+  <!DOCTYPE struts PUBLIC
+      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+      "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- struts的action配置文件 -->
+	<!-- 配置请求后缀 -->
+	<constant name="struts.action.extension" value="do" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.ui.theme" value="xhtml" />
+	<constant name="struts.convention.classes.reload" value="true" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<!-- 所有的action都应该放在对应的package下 -->
+	<package name="struts2" namespace="/" extends="struts-default">
+		<action name="*_login" class="com.hq.action.LoginAction"
+			method="{1}">
+		</action>
+		<action name="*_inter" class="com.hq.action.InterFaceAction"
+			method="{1}">
+		</action>
+		<action name="*_user" class="com.hq.action.UserAction"
+			method="{1}">
+		</action>
+	</package>
+</struts>

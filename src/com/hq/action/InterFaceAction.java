@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import cn.com.hq.util.JsonUtils;
+import cn.com.hq.util.StringUtil;
 
 import com.hq.model.CLZT;
 import com.hq.model.Order;
@@ -126,6 +127,11 @@ public class InterFaceAction extends BaseAction {
 		HttpServletRequest reguest = super.getRequest();
 		String userKey = reguest.getParameter("userKey");
 		Order order = InterFaceAction.getOneOrderId(userKey);
+		if(StringUtil.isEmpty(order.getUser_order_id())){
+			logger.info("---query error--- 用户key不存在");
+			responseWriter("{\"errorMessage\":\"用户秘钥不存在\",\"success\":false}");
+			return;
+		}
 		String queryResult  = CLZT.queryResult(reguest, "");
 		//查询失败
 		if(queryResult.indexOf("errorMessage")>-1){
@@ -140,7 +146,7 @@ public class InterFaceAction extends BaseAction {
 			//查询成功,更新订单表
 			logger.info("---query start--- 查询成功,更新订单表");
 		}
-		responseWriter(JsonUtils.toJson(queryResult));
+		responseWriter(queryResult);
 		DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:S");
 		order.setOrder_usetime(format2.format(new Date()));
 		order.setContent(queryResult);
@@ -151,6 +157,10 @@ public class InterFaceAction extends BaseAction {
 	public static synchronized Order getOneOrderId(String userKey) {
 		InterFaceService interFaceService = new InterFaceServiceimpl();
 		Order order = interFaceService.getOneOrder(userKey);
+		if(StringUtil.isEmpty(order.getUser_order_id())){
+			logger.info("---getOneOrderId error--- 用户key不存在");
+			return order;
+		}
 		order.setIs_order_used("1");
 		interFaceService.updateOrderBaseInfo(order);
 		return order;

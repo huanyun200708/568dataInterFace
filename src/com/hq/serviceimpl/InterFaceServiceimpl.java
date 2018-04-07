@@ -208,7 +208,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, COUNT(1) restcount"+
 					"	FROM 568db.user u,568db.external_interface_order o "+
 					"	WHERE u.user_key = o.user_key"+
-					"	AND o.`is_order_used`<>'1' "+
+					/*"	AND o.`is_order_used`<>'1' "+*/
 					"	GROUP BY u.id, u.name, u.phone, u.user_key, u.create_time ";
 		Connection connection =  dao.getDBConnection();
 		PreparedStatement  ps;
@@ -240,7 +240,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 					"	FROM 568db.user u,568db.external_interface_order o "+
 					"	WHERE u.user_key = o.user_key"+
 					"	AND u.id=? "+
-					"	AND o.`is_order_used`<>'1' "+
+					/*"	AND o.`is_order_used`<>'1' "+*/
 					"	GROUP BY u.id, u.name, u.phone, u.user_key, u.create_time ";
 		Connection connection =  dao.getDBConnection();
 		PreparedStatement  ps;

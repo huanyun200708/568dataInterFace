@@ -2,176 +2,90 @@ package com.hq.model;
 
 public class CLZTResult {
 
-	private String engine     ;
-	private String state      ;
-	private String plate      ;
-	private String pps        ;
-	private String number     ;
-	private String properties ;
-	private String type       ;
+	private String isQuerySimple;
 	private String variety    ;
-	private String engineType ;
-	private String record     ;
 	private String passengers ;
-	private String retirement ;
-	private String color      ;
-	private String validity   ;
-	private String vin        ;
-	private String fuel       ;
+	private String plate      ;
 	private String brand      ;
+	private String type       ;
+	private String vin        ;
+	private String engine     ;
 	private String vehicleType;
-	private String cc         ;
+	private String color      ;
+	private String properties ;
 	private String man        ;
-	
-	private String listDate     ;
-	private String demio        ;
-	private String shiftDesc    ;
-	private String listMonth    ;
-	private String effluentNorm ;
-	private String carForm      ;
-	private String vinDate      ;
-	private String carCode      ;
-	private String MJ           ;
-	private String doorCount    ;
-	private String fuelCode     ;
-	private String brandName    ;
-	private String shiftType    ;
-	private String sellName     ;
-	private String carLevel     ;
-	private String dricerWay    ;
-	private String gearsCount   ;
-	private String guidePrice   ;
-	private String MaxPower     ;
-	private String vatCount     ;
-	private String stopDate     ;
-
+	private String record     ;
+	private String validity   ;
+	private String retirement ;
+	private String state      ;
+	private String engineType ;
+	private String fuel       ;
+	private String cc         ;
+	private String pps        ;
+	private String MaxJourney ;
+	private String shaft      ;
+	private String wheelBase  ;
+	private String frontTread ;
+	private String rearTread  ;
+	private String crossWeight;
+	private String curbWeight ;
+	private String loadWeight ;
 	
 	
-	public String getListDate() {
-		return listDate;
+	
+	public String getIsQuerySimple() {
+		return isQuerySimple;
 	}
-	public void setListDate(String listDate) {
-		this.listDate = listDate;
+	public void setIsQuerySimple(String isQuerySimple) {
+		this.isQuerySimple = isQuerySimple;
 	}
-	public String getDemio() {
-		return demio;
+	public String getMaxJourney() {
+		return MaxJourney;
 	}
-	public void setDemio(String demio) {
-		this.demio = demio;
+	public void setMaxJourney(String maxJourney) {
+		MaxJourney = maxJourney;
 	}
-	public String getShiftDesc() {
-		return shiftDesc;
+	public String getShaft() {
+		return shaft;
 	}
-	public void setShiftDesc(String shiftDesc) {
-		this.shiftDesc = shiftDesc;
+	public void setShaft(String shaft) {
+		this.shaft = shaft;
 	}
-	public String getListMonth() {
-		return listMonth;
+	public String getWheelBase() {
+		return wheelBase;
 	}
-	public void setListMonth(String listMonth) {
-		this.listMonth = listMonth;
+	public void setWheelBase(String wheelBase) {
+		this.wheelBase = wheelBase;
 	}
-	public String getEffluentNorm() {
-		return effluentNorm;
+	public String getFrontTread() {
+		return frontTread;
 	}
-	public void setEffluentNorm(String effluentNorm) {
-		this.effluentNorm = effluentNorm;
+	public void setFrontTread(String frontTread) {
+		this.frontTread = frontTread;
 	}
-	public String getCarForm() {
-		return carForm;
+	public String getRearTread() {
+		return rearTread;
 	}
-	public void setCarForm(String carForm) {
-		this.carForm = carForm;
+	public void setRearTread(String rearTread) {
+		this.rearTread = rearTread;
 	}
-	public String getVinDate() {
-		return vinDate;
+	public String getCrossWeight() {
+		return crossWeight;
 	}
-	public void setVinDate(String vinDate) {
-		this.vinDate = vinDate;
+	public void setCrossWeight(String crossWeight) {
+		this.crossWeight = crossWeight;
 	}
-	public String getCarCode() {
-		return carCode;
+	public String getCurbWeight() {
+		return curbWeight;
 	}
-	public void setCarCode(String carCode) {
-		this.carCode = carCode;
+	public void setCurbWeight(String curbWeight) {
+		this.curbWeight = curbWeight;
 	}
-	public String getMJ() {
-		return MJ;
+	public String getLoadWeight() {
+		return loadWeight;
 	}
-	public void setMJ(String mJ) {
-		MJ = mJ;
-	}
-	public String getDoorCount() {
-		return doorCount;
-	}
-	public void setDoorCount(String doorCount) {
-		this.doorCount = doorCount;
-	}
-	public String getFuelCode() {
-		return fuelCode;
-	}
-	public void setFuelCode(String fuelCode) {
-		this.fuelCode = fuelCode;
-	}
-	public String getBrandName() {
-		return brandName;
-	}
-	public void setBrandName(String brandName) {
-		this.brandName = brandName;
-	}
-	public String getShiftType() {
-		return shiftType;
-	}
-	public void setShiftType(String shiftType) {
-		this.shiftType = shiftType;
-	}
-	public String getSellName() {
-		return sellName;
-	}
-	public void setSellName(String sellName) {
-		this.sellName = sellName;
-	}
-	public String getCarLevel() {
-		return carLevel;
-	}
-	public void setCarLevel(String carLevel) {
-		this.carLevel = carLevel;
-	}
-	public String getDricerWay() {
-		return dricerWay;
-	}
-	public void setDricerWay(String dricerWay) {
-		this.dricerWay = dricerWay;
-	}
-	public String getGearsCount() {
-		return gearsCount;
-	}
-	public void setGearsCount(String gearsCount) {
-		this.gearsCount = gearsCount;
-	}
-	public String getGuidePrice() {
-		return guidePrice;
-	}
-	public void setGuidePrice(String guidePrice) {
-		this.guidePrice = guidePrice;
-	}
-	public String getMaxPower() {
-		return MaxPower;
-	}
-	public void setMaxPower(String maxPower) {
-		MaxPower = maxPower;
-	}
-	public String getVatCount() {
-		return vatCount;
-	}
-	public void setVatCount(String vatCount) {
-		this.vatCount = vatCount;
-	}
-	public String getStopDate() {
-		return stopDate;
-	}
-	public void setStopDate(String stopDate) {
-		this.stopDate = stopDate;
+	public void setLoadWeight(String loadWeight) {
+		this.loadWeight = loadWeight;
 	}
 	public String getEngine() {
 		return engine;
@@ -214,12 +128,6 @@ public class CLZTResult {
 	}
 	public void setPps(String pps) {
 		this.pps = pps;
-	}
-	public String getNumber() {
-		return number;
-	}
-	public void setNumber(String number) {
-		this.number = number;
 	}
 	public String getProperties() {
 		return properties;
@@ -514,3 +422,5 @@ public class CLZTResult {
 	
 
 }
+
+

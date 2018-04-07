@@ -5,7 +5,7 @@ public class QueryAppKeyLib {
 	public static String cheliangzhuangtaiQueryAppKey = "c54b7bc1605c7aec1917cb352e251470";
 	public static String cheliangzhuangtaiQueryUrl = "http://v.juhe.cn/carInfo/query?";
 	public static String cheliangZiDianUrl = "http://v.juhe.cn/carInfo/appendix.php?";
-	
+	public static String cheliangzhuangtaiQuerySimpleUrl = "http://v.juhe.cn/carInfo/querySimple.php?";
 	/**车辆信息和去年投保信息*/
 	public static String toubaoxinxiQueryAppKey = "095c75d971ce0d7016cfb4f4e4db7e7d";
 	public static String toubaoxinxiQueryUrl = "http://v.juhe.cn/carInsuranceInfo/query.php?";

@@ -205,11 +205,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 	@Override
     public List<Map<String,String>> getInterFaceUseList() {
 		List<Map<String,String>> result = new ArrayList<Map<String,String>>(10);
-		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, COUNT(1) restcount"+
-					"	FROM 568db.user u,568db.external_interface_order o "+
-					"	WHERE u.user_key = o.user_key"+
-					/*"	AND o.`is_order_used`<>'1' "+*/
-					"	GROUP BY u.id, u.name, u.phone, u.user_key, u.create_time ";
+		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, 0 restcount FROM 568db.user u ";
 		Connection connection =  dao.getDBConnection();
 		PreparedStatement  ps;
 		try {
@@ -221,7 +217,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 				m.put("name", rs.getString(2));
 				m.put("phone", rs.getString(3));
 				m.put("user_key", rs.getString(4));
-				m.put("restcount", rs.getString(5));
+				m.put("restcount", this.getTheRestOfQuery(rs.getString(4)));
 				result.add(m);
 			}
 			dao.closeResultSet(rs);
@@ -236,12 +232,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 	@Override
     public Map<String, String> getInterFaceUseById(String id) {
 		List<Map<String,String>> result = new ArrayList<Map<String,String>>(10);
-		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, COUNT(1) restcount"+
-					"	FROM 568db.user u,568db.external_interface_order o "+
-					"	WHERE u.user_key = o.user_key"+
-					"	AND u.id=? "+
-					/*"	AND o.`is_order_used`<>'1' "+*/
-					"	GROUP BY u.id, u.name, u.phone, u.user_key, u.create_time ";
+		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, 0 restcount FROM 568db.user u WHERE u.id=?";
 		Connection connection =  dao.getDBConnection();
 		PreparedStatement  ps;
 		try {
@@ -254,7 +245,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 				m.put("name", rs.getString(2));
 				m.put("phone", rs.getString(3));
 				m.put("user_key", rs.getString(4));
-				m.put("restcount", rs.getString(5));
+				m.put("restcount", this.getTheRestOfQuery(rs.getString(4)));
 				return m;
 			}
 			dao.closeResultSet(rs);

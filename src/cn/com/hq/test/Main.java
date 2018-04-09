@@ -15,7 +15,7 @@ public class Main {
 			Thread thread1 = new Thread(myRunnable);
 			thread1.start();
 		}*/
-    	System.out.println( interFaceService.getTheRestOfQuery("ABC"));
+    	//System.out.println( interFaceService.getTheRestOfQuery("ABC"));
     }
     
 }

@@ -15,7 +15,16 @@
 		<action name="*_login" class="com.hq.action.LoginAction"
 			method="{1}">
 		</action>
-		<action name="*_inter" class="com.hq.action.InterFaceAction"
+		<action name="*_inter" class="com.hq.action.CLXXInterFaceAction"
+			method="{1}">
+		</action>
+		<action name="*_TBinter" class="com.hq.action.TBXXInterFaceAction"
+			method="{1}">
+		</action>
+		<action name="*_WBinter" class="com.hq.action.WBXXInterFaceAction"
+			method="{1}">
+		</action>
+		<action name="*_CXinter" class="com.hq.action.CXXXInterFaceAction"
 			method="{1}">
 		</action>
 		<action name="*_user" class="com.hq.action.UserAction"

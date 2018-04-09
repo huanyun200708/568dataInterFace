@@ -20,14 +20,14 @@ import com.hq.service.InterFaceService;
 import com.hq.serviceimpl.InterFaceServiceimpl;
 import com.weixinpay.common.RandomStringGenerator;
 
-public class InterFaceAction extends BaseAction {
+public class TBXXInterFaceAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private InterFaceService interFaceService = new InterFaceServiceimpl();
-	private static Logger logger = Logger.getLogger(InterFaceAction.class);
+	private static Logger logger = Logger.getLogger(TBXXInterFaceAction.class);
 	public void getTheRestOfQuery() {
 		HttpServletRequest reguest = super.getRequest();
 		String userKey = reguest.getParameter("userKey");
-		String count = interFaceService.getTheRestOfQuery(userKey);
+		String count = interFaceService.getTheRestOfQuery(userKey,"TBXX");
 		Map<String,String> result = new HashMap<String,String>(1);
 		result.put("count", count);
 		responseWriter(JsonUtils.toJson(result));
@@ -40,9 +40,9 @@ public class InterFaceAction extends BaseAction {
 		String phone = reguest.getParameter("phone");
 		String count = reguest.getParameter("count");
 		String userKey = RandomStringGenerator.getRandomStringByLength(32);
-		boolean result = interFaceService.addInterFaceUse(name,phone,userKey);
+		boolean result = interFaceService.addInterFaceUse(name,phone,userKey,"TBXX");
 		if(result){
-			result = interFaceService.insertOrderBaseInfo(userKey, count, "CLXX");
+			result = interFaceService.insertOrderBaseInfo(userKey, count, "TBXX");
 			if(!result){
 				resultMessage.put("success", "false");
 				resultMessage.put("message", "增加次数失败失败！");
@@ -63,7 +63,7 @@ public class InterFaceAction extends BaseAction {
 		HttpServletRequest reguest = super.getRequest();
 		Map<String,String> resultMessage = new HashMap<String,String>(1);
 		String id = reguest.getParameter("id");
-		Map<String,String> result = interFaceService.getInterFaceUseById(id);
+		Map<String,String> result = interFaceService.getInterFaceUseById(id,"TBXX");
 		if(result == null){
 			resultMessage.put("success", "false");
 			resultMessage.put("message", "获取失败！");
@@ -81,7 +81,7 @@ public class InterFaceAction extends BaseAction {
 		String id = reguest.getParameter("id");
 		String name = reguest.getParameter("name");
 		String phone = reguest.getParameter("phone");
-		boolean result = interFaceService.updateInterFaceUse(id, name, phone);
+		boolean result = interFaceService.updateInterFaceUse(id, name, phone,"TBXX");
 		if(result){
 			resultMessage.put("success", "true");
 			resultMessage.put("message", "更新成功！");
@@ -94,7 +94,7 @@ public class InterFaceAction extends BaseAction {
 	}
 	
 	public void getInterFaceUseList() {
-		List<Map<String,String>> result = interFaceService.getInterFaceUseList();
+		List<Map<String,String>> result = interFaceService.getInterFaceUseList("TBXX");
 		responseWriter("{\"success\":true,\"code\":0,\"msg\":\"\",\"count\":"+result.size()+",\"data\":"+JsonUtils.toJson(result)+"}");
 	}
 	
@@ -109,9 +109,8 @@ public class InterFaceAction extends BaseAction {
 		Map<String,String> resultMessage = new HashMap<String,String>(1);
 		HttpServletRequest reguest = super.getRequest();
 		String userKey = reguest.getParameter("userKey");
-		String interface_type = reguest.getParameter("interface_type");
 		String count = reguest.getParameter("count");
-		boolean result = interFaceService.insertOrderBaseInfo(userKey, count, interface_type);
+		boolean result = interFaceService.insertOrderBaseInfo(userKey, count, "TBXX");
 		if(result){
 			resultMessage.put("success", "false");
 			resultMessage.put("message", "新增次数失败！");
@@ -123,16 +122,25 @@ public class InterFaceAction extends BaseAction {
 		}
 	}
 	
-	public void QueryCLXX() {
+	public void QueryTBXX() {
 		HttpServletRequest reguest = super.getRequest();
 		String userKey = reguest.getParameter("userKey");
-		Order order = InterFaceAction.getOneOrderId(userKey);
-		if(StringUtil.isEmpty(order.getUser_order_id())){
-			logger.info("---query error--- 用户key不存在");
+		Map<String, String> userInfo =  interFaceService.getInterFaceUseByUserKey(userKey, "TBXX");
+	    if(userInfo == null){
+	    	logger.info("---query error--- 用户key不存在");
 			responseWriter("{\"errorMessage\":\"用户秘钥不存在\",\"success\":false}");
 			return;
+	    }
+		Order order = TBXXInterFaceAction.getOneOrderId(userKey);
+		if(StringUtil.isEmpty(order.getUser_order_id())){
+			logger.info("---query error--- 查询次数不足，请及时充值！！！");
+			responseWriter("{\"errorMessage\":\"查询次数不足，请及时充值！！！\",\"success\":false}");
+			return;
 		}
-		String queryResult  = CLZT.queryResult(reguest, "");
+		//String queryResult  = CLZT.queryResult(reguest, "");
+		//String queryResult  = "{\"result\":\"TEST TBXX SUCCESS\",\"success\":true}";
+		//String queryResult  = "{\"errorMessage\":\"TEST TBXX FAILE\",\"success\":true}";
+		String queryResult  = "{\"errorMessage\":\"TEST TBXX FAILE\",\"submitOrder\":1,\"success\":false}";
 		//查询失败
 		if(queryResult.indexOf("errorMessage")>-1){
 			order.setContent(queryResult);
@@ -156,7 +164,7 @@ public class InterFaceAction extends BaseAction {
 
 	public static synchronized Order getOneOrderId(String userKey) {
 		InterFaceService interFaceService = new InterFaceServiceimpl();
-		Order order = interFaceService.getOneOrder(userKey);
+		Order order = interFaceService.getOneOrder(userKey,"TBXX");
 		if(StringUtil.isEmpty(order.getUser_order_id())){
 			logger.info("---getOneOrderId error--- 用户key不存在");
 			return order;

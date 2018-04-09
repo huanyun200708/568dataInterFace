@@ -21,13 +21,14 @@ import com.hq.service.InterFaceService;
 public class InterFaceServiceimpl implements InterFaceService {
 	private Dao dao = new Dao();
 	@Override
-    public String getTheRestOfQuery(String userKey) {
-		String sql = "select count(1) from 568db.external_interface_order where user_key=? and is_order_used<>'1'";
+    public String getTheRestOfQuery(String userKey,String interfaceType) {
+		String sql = "select count(1) from 568db.external_interface_order where user_key=? and interface_type=? and is_order_used<>'1'";
 		Connection connection =  dao.getDBConnection();
 		String count = "0";
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, userKey);
+			ps.setString(2, interfaceType);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				count = rs.getString(1);
@@ -42,13 +43,14 @@ public class InterFaceServiceimpl implements InterFaceService {
 	}
 
 	@Override
-    public Order getOneOrder(String userKey) {
-		String sql = "select interface_type,user_order_id,order_createtime from 568db.external_interface_order where user_key=? and is_order_used<>'1'";
+    public Order getOneOrder(String userKey,String interfaceType) {
+		String sql = "select interface_type,user_order_id,order_createtime from 568db.external_interface_order where user_key=? and interface_type=? and is_order_used<>'1'";
 		Connection connection =  dao.getDBConnection();
 		Order order = new Order();
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, userKey);
+			ps.setString(2, interfaceType);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				order.setInterface_type(rs.getString(1));
@@ -162,9 +164,9 @@ public class InterFaceServiceimpl implements InterFaceService {
     }
 
 	@Override
-    public boolean addInterFaceUse(String name, String phone, String userKey) {
+    public boolean addInterFaceUse(String name, String phone, String userKey, String interfaceType) {
 		boolean result = false;
-		String sql = "INSERT INTO 568db.user (name,phone,user_key,create_time) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO 568db.user (name,phone,user_key,create_time,interface_type) VALUES (?,?,?,?,?)";
 		Connection connection =  dao.getDBConnection();
 		PreparedStatement  ps;
 		try {
@@ -175,6 +177,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 			ps.setString(2, phone);
 			ps.setString(3, userKey);
 			ps.setString(4, format2.format(date));
+			ps.setString(5, interfaceType);
 			result = ps.executeUpdate() > 0;
 			dao.closeStatement(ps);
 			Dao.releaseConnection(connection);
@@ -184,7 +187,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 		return result;
 	}
 	@Override
-    public boolean updateInterFaceUse(String id,String name, String phone) {
+    public boolean updateInterFaceUse(String id,String name, String phone, String interfaceType) {
 		boolean result = false;
 		String sql = "update 568db.user set name=?,phone=? where id=?";
 		Connection connection =  dao.getDBConnection();
@@ -203,13 +206,14 @@ public class InterFaceServiceimpl implements InterFaceService {
 		return result;
 	}
 	@Override
-    public List<Map<String,String>> getInterFaceUseList() {
+    public List<Map<String,String>> getInterFaceUseList(String interfaceType) {
 		List<Map<String,String>> result = new ArrayList<Map<String,String>>(10);
-		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, 0 restcount FROM 568db.user u ";
+		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, 0 restcount FROM 568db.user u where interface_type=?";
 		Connection connection =  dao.getDBConnection();
 		PreparedStatement  ps;
 		try {
 			ps = connection.prepareStatement(sql);
+			ps.setString(1, interfaceType);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				HashMap<String,String> m = new HashMap<String,String>();
@@ -217,7 +221,7 @@ public class InterFaceServiceimpl implements InterFaceService {
 				m.put("name", rs.getString(2));
 				m.put("phone", rs.getString(3));
 				m.put("user_key", rs.getString(4));
-				m.put("restcount", this.getTheRestOfQuery(rs.getString(4)));
+				m.put("restcount", this.getTheRestOfQuery(rs.getString(4),interfaceType));
 				result.add(m);
 			}
 			dao.closeResultSet(rs);
@@ -230,14 +234,15 @@ public class InterFaceServiceimpl implements InterFaceService {
 	}
 
 	@Override
-    public Map<String, String> getInterFaceUseById(String id) {
+    public Map<String, String> getInterFaceUseById(String id,String interfaceType) {
 		List<Map<String,String>> result = new ArrayList<Map<String,String>>(10);
-		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, 0 restcount FROM 568db.user u WHERE u.id=?";
+		String sql = "SELECT  u.id, u.name, u.phone, u.user_key, 0 restcount FROM 568db.user u WHERE u.id=? and interface_type=?";
 		Connection connection =  dao.getDBConnection();
 		PreparedStatement  ps;
 		try {
 			ps = connection.prepareStatement(sql);
 			ps.setString(1, id);
+			ps.setString(2, interfaceType);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				HashMap<String,String> m = new HashMap<String,String>();
@@ -245,7 +250,35 @@ public class InterFaceServiceimpl implements InterFaceService {
 				m.put("name", rs.getString(2));
 				m.put("phone", rs.getString(3));
 				m.put("user_key", rs.getString(4));
-				m.put("restcount", this.getTheRestOfQuery(rs.getString(4)));
+				m.put("restcount", this.getTheRestOfQuery(rs.getString(4),interfaceType));
+				return m;
+			}
+			dao.closeResultSet(rs);
+			dao.closeStatement(ps);
+			Dao.releaseConnection(connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+    public Map<String, String> getInterFaceUseByUserKey(String userKey,String interfaceType) {
+		List<Map<String,String>> result = new ArrayList<Map<String,String>>(10);
+		String sql = "SELECT  u.id, u.name, u.phone, u.user_key  FROM 568db.user u WHERE u.user_key=? and interface_type=?";
+		Connection connection =  dao.getDBConnection();
+		PreparedStatement  ps;
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, userKey);
+			ps.setString(2, interfaceType);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				HashMap<String,String> m = new HashMap<String,String>();
+				m.put("id", rs.getString(1));
+				m.put("name", rs.getString(2));
+				m.put("phone", rs.getString(3));
+				m.put("user_key", rs.getString(4));
 				return m;
 			}
 			dao.closeResultSet(rs);

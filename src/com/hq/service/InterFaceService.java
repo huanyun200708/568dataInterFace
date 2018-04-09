@@ -6,9 +6,7 @@ import java.util.Map;
 import com.hq.model.Order;
 
 public interface InterFaceService {
-	public String getTheRestOfQuery(String userKey);
 
-	public Order getOneOrder(String userKey);
 
 	public boolean updateOrderBaseInfo(Order order);
 
@@ -16,11 +14,19 @@ public interface InterFaceService {
 
 	public boolean insertOrderBaseInfo(String userKey, String count, String interface_type);
 
-	public boolean addInterFaceUse(String name, String phone, String userKey);
+	public boolean addInterFaceUse(String name, String phone, String userKey, String interfaceType);
 
-	boolean updateInterFaceUse(String id, String name, String phone);
+	boolean updateInterFaceUse(String id, String name, String phone, String interfaceType);
 
-	List<Map<String, String>> getInterFaceUseList();
 
-	public Map<String, String> getInterFaceUseById(String id);
+
+	String getTheRestOfQuery(String userKey, String interfaceType);
+
+	Order getOneOrder(String userKey, String interfaceType);
+
+	List<Map<String, String>> getInterFaceUseList(String interfaceType);
+
+	Map<String, String> getInterFaceUseById(String id, String interfaceType);
+
+	Map<String, String> getInterFaceUseByUserKey(String userKey, String interfaceType);
 }

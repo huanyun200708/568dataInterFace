@@ -137,10 +137,10 @@ public class CLXXInterFaceAction extends BaseAction {
 			responseWriter("{\"errorMessage\":\"查询次数不足，请及时充值！！！\",\"success\":false}");
 			return;
 		}
-		//String queryResult  = CLZT.queryResult(reguest, "");
+		String queryResult  = CLZT.queryResult(reguest, "");
 		//String queryResult  = "{\"result\":\"TEST SUCCESS\",\"success\":true}";
 		//String queryResult  = "{\"errorMessage\":\"TEST SUCCESS\",\"success\":true}";
-		String queryResult  = "{\"errorMessage\":\"TEST FAILE\",\"submitOrder\":1,\"success\":false}";
+		//String queryResult  = "{\"errorMessage\":\"TEST FAILE\",\"submitOrder\":1,\"success\":false}";
 		//查询失败
 		if(queryResult.indexOf("errorMessage")>-1){
 			order.setContent(queryResult);

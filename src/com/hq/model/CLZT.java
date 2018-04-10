@@ -49,11 +49,8 @@ public class CLZT {
 	}
 
 	public CLZD getCheLiangZiDian() {
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss")
-				.enableComplexMapKeySerialization().disableHtmlEscaping()
-				.create();
-		String clzdurl = QueryAppKeyLib.cheliangZiDianUrl + "key="
-				+ QueryAppKeyLib.cheliangzhuangtaiQueryAppKey;
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").enableComplexMapKeySerialization().disableHtmlEscaping().create();
+		String clzdurl = QueryAppKeyLib.cheliangZiDianUrl + "key=" + QueryAppKeyLib.cheliangzhuangtaiQueryAppKey;
 		HttpGet clzdhttpGet = new HttpGet(clzdurl);
 		// 设置请求器的配置
 		try {
@@ -63,10 +60,7 @@ public class CLZT {
 			String clzdresult = EntityUtils.toString(clzdentity, "UTF-8");
 			System.out.println("CLZT:\r\n" + clzdresult);
 			logger.info("CLZT:\r\n" + clzdresult);
-			clzdresult = clzdresult.replace("附录1", "fulu1")
-					.replace("附录2", "fulu2").replace("附录3", "fulu3")
-					.replace("附录4", "fulu4").replace("附录5", "fulu5")
-					.replace("附录6", "fulu6");
+			clzdresult = clzdresult.replace("附录1", "fulu1").replace("附录2", "fulu2").replace("附录3", "fulu3").replace("附录4", "fulu4").replace("附录5", "fulu5").replace("附录6", "fulu6");
 			CLZD c = gson.fromJson(clzdresult, CLZD.class);
 			return c;
 		} catch (Exception e) {
@@ -83,45 +77,36 @@ public class CLZT {
 			String state0 = c.getResult().getState();// fulu5
 			String state = "";
 			for (char ch : state0.toCharArray()) {
-				state = state
-						+ StringUtil.getValueFromMap(ch + "", clzd.getFulu5())
-						+ " ";
+				state = state + StringUtil.getValueFromMap(ch + "", clzd.getFulu5()) + " ";
 			}
 			c.getResult().setState(state);
 
 			String properties0 = c.getResult().getProperties();// fulu4
 			String properties = "";
 			for (char ch : properties0.toCharArray()) {
-				properties = properties
-						+ StringUtil.getValueFromMap(ch + "", clzd.getFulu4())
-						+ " ";
+				properties = properties + StringUtil.getValueFromMap(ch + "", clzd.getFulu4()) + " ";
 			}
 			c.getResult().setProperties(properties);
 
 			String color0 = c.getResult().getColor();// fulu3
 			String color = "";
 			for (char ch : color0.toCharArray()) {
-				color = color
-						+ StringUtil.getValueFromMap(ch + "", clzd.getFulu3());
+				color = color + StringUtil.getValueFromMap(ch + "", clzd.getFulu3());
 			}
 			c.getResult().setColor(color);
 
 			String fuel0 = c.getResult().getFuel();// fulu6
 			String fuel = "";
 			for (char ch : fuel0.toCharArray()) {
-				fuel = fuel
-						+ StringUtil.getValueFromMap(ch + "", clzd.getFulu6());
+				fuel = fuel + StringUtil.getValueFromMap(ch + "", clzd.getFulu6());
 			}
 			c.getResult().setFuel(fuel);
 
 			String vehicleType = c.getResult().getVehicleType();// fulu2
-			c.getResult().setVehicleType(
-					StringUtil.getValueFromMap(vehicleType + "",
-							clzd.getFulu2()));
+			c.getResult().setVehicleType(StringUtil.getValueFromMap(vehicleType + "", clzd.getFulu2()));
 
 			String variety = c.getResult().getVariety();// fulu1
-			c.getResult().setVariety(
-					StringUtil.getValueFromMap(variety + "", clzd.getFulu1()));
+			c.getResult().setVariety(StringUtil.getValueFromMap(variety + "", clzd.getFulu1()));
 			return;
 		}
 		c.getResult().setState(c.getResult().getState());
@@ -133,27 +118,22 @@ public class CLZT {
 	}
 
 	public static String queryResult(HttpServletRequest request, String orderId) {
-		String isStopcheliangzhuangtaiQuery = PropertiesUtils
-				.getPropertyValueByKey("isStopcheliangzhuangtaiQuery");
+		String isStopcheliangzhuangtaiQuery = PropertiesUtils.getPropertyValueByKey("isStopcheliangzhuangtaiQuery");
 		if ("1".equals(isStopcheliangzhuangtaiQuery)) {
 			return "{\"errorMessage\":\"系统维护...\",\"success\":false}";
 		}
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss")
-				.enableComplexMapKeySerialization().disableHtmlEscaping()
-				.create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").enableComplexMapKeySerialization().disableHtmlEscaping().create();
 		String queryResult = "";
 		String number = request.getParameter("number").replaceAll("\\s", "");
+		if (number.length() < 1) {
+			return "{\"errorMessage\":\"车牌为空\",\"success\":false}";
+		}
 		String cltype = request.getParameter("cltype");
 
-		String clzturl = QueryAppKeyLib.cheliangzhuangtaiQueryUrl + "key="
-				+ QueryAppKeyLib.cheliangzhuangtaiQueryAppKey + "&number="
-				+ number;
-		String isUseSimpleCheLiangZhuangTaiQuery = PropertiesUtils
-				.getPropertyValueByKey("isUseSimpleCheLiangZhuangTaiQuery");
+		String clzturl = QueryAppKeyLib.cheliangzhuangtaiQueryUrl + "key=" + QueryAppKeyLib.cheliangzhuangtaiQueryAppKey + "&number=" + number;
+		String isUseSimpleCheLiangZhuangTaiQuery = PropertiesUtils.getPropertyValueByKey("isUseSimpleCheLiangZhuangTaiQuery");
 		if ("1".equals(isUseSimpleCheLiangZhuangTaiQuery)) {
-			clzturl = QueryAppKeyLib.cheliangzhuangtaiQuerySimpleUrl + "key="
-					+ QueryAppKeyLib.cheliangzhuangtaiQueryAppKey + "&number="
-					+ number;
+			clzturl = QueryAppKeyLib.cheliangzhuangtaiQuerySimpleUrl + "key=" + QueryAppKeyLib.cheliangzhuangtaiQueryAppKey + "&number=" + number;
 		}
 		if (!StringUtil.isEmpty(cltype)) {
 			clzturl = clzturl + "&type=" + cltype.replaceAll("\\s", "");
@@ -172,18 +152,15 @@ public class CLZT {
 			CLZT c = gson.fromJson(queryResult, CLZT.class);
 
 			// 以下错误码不收费
-			// if("227100".equals(c.error_code) || "227101".equals(c.error_code)
-			// || "227102".equals(c.error_code)){
-			// return "{\"errorMessage\":\""+c.reason+"\",\"success\":false}";
-			// }
+			if ("227100".equals(c.error_code) || "227101".equals(c.error_code) || "227102".equals(c.error_code)) {
+				return "{\"errorMessage\":\"" + c.reason + "\",\"error_code\":\"" + c.error_code + "\",\"success\":false}";
+			}
 			if (!"0".equals(c.error_code)) {
-				return "{\"errorMessage\":\"" + c.reason
-						+ "\",\"submitOrder\":1,\"success\":false}";
+				return "{\"errorMessage\":\"" + c.reason + "\",\"error_code\":\"" + c.error_code + "\",\"submitOrder\":1,\"success\":false}";
 			}
 			try {
 				c.translate(c);
-				c.getResult().setIsQuerySimple(
-						isUseSimpleCheLiangZhuangTaiQuery);
+				c.getResult().setIsQuerySimple(isUseSimpleCheLiangZhuangTaiQuery);
 				queryResult = gson.toJson(c);
 			} catch (Exception e) {
 				logger.error(StringUtil.errInfo(e));

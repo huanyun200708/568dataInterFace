@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 import cn.com.hq.util.JsonUtils;
 import cn.com.hq.util.StringUtil;
 
-import com.hq.model.CLZT;
 import com.hq.model.Order;
+import com.hq.model.TBXX;
 import com.hq.service.InterFaceService;
 import com.hq.serviceimpl.InterFaceServiceimpl;
 import com.weixinpay.common.RandomStringGenerator;
@@ -137,10 +137,10 @@ public class TBXXInterFaceAction extends BaseAction {
 			responseWriter("{\"errorMessage\":\"查询次数不足，请及时充值！！！\",\"success\":false}");
 			return;
 		}
-		//String queryResult  = CLZT.queryResult(reguest, "");
+		String queryResult  = TBXX.queryResult(reguest, "");
 		//String queryResult  = "{\"result\":\"TEST TBXX SUCCESS\",\"success\":true}";
 		//String queryResult  = "{\"errorMessage\":\"TEST TBXX FAILE\",\"success\":true}";
-		String queryResult  = "{\"errorMessage\":\"TEST TBXX FAILE\",\"submitOrder\":1,\"success\":false}";
+		//String queryResult  = "{\"errorMessage\":\"TEST TBXX FAILE\",\"submitOrder\":1,\"success\":false}";
 		//查询失败
 		if(queryResult.indexOf("errorMessage")>-1){
 			order.setContent(queryResult);

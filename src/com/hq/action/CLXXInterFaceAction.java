@@ -139,24 +139,30 @@ public class CLXXInterFaceAction extends BaseAction {
 		}
 		String queryResult  = CLZT.queryResult(reguest, "");
 		//String queryResult  = "{\"result\":\"TEST SUCCESS\",\"success\":true}";
-		//String queryResult  = "{\"errorMessage\":\"TEST SUCCESS\",\"success\":true}";
+		//String queryResult  = "{\"errorMessage\":\"TEST ERROR\",\"success\":false}";
 		//String queryResult  = "{\"errorMessage\":\"TEST FAILE\",\"submitOrder\":1,\"success\":false}";
 		//查询失败
+		DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:S");
+		String now = format2.format(new Date());
 		if(queryResult.indexOf("errorMessage")>-1){
+			
+			String cltype = reguest.getParameter("type");
+			String number = reguest.getParameter("number");
+			interFaceService.insertOrderErrorInfo(order.getUser_order_id(), queryResult, now, "cltype:"+cltype+"--number:"+number);
+			
 			order.setContent(queryResult);
 			logger.error("【query error】orderid:"+order.getUser_order_id()+"--"+queryResult);
 			//如果查询失败，则需要退换次数
 			if(queryResult.indexOf("\"submitOrder\":1") == -1){
-				DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:S");
 				order.setIs_order_used("0");
 			}
+			queryResult  = "{\"errorMessage\":\"车号不存在！\",\"success\":false}";
 		}else{
 			//查询成功,更新订单表
 			logger.info("---query start--- 查询成功,更新订单表");
 		}
 		responseWriter(queryResult);
-		DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:S");
-		order.setOrder_usetime(format2.format(new Date()));
+		order.setOrder_usetime(now);
 		order.setContent(queryResult);
 		interFaceService.updateOrderBaseInfo(order);
 		interFaceService.updateOrderContentInfo(order);

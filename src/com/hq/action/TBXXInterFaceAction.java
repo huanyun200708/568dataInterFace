@@ -142,12 +142,20 @@ public class TBXXInterFaceAction extends BaseAction {
 		//String queryResult  = "{\"errorMessage\":\"TEST TBXX FAILE\",\"success\":true}";
 		//String queryResult  = "{\"errorMessage\":\"TEST TBXX FAILE\",\"submitOrder\":1,\"success\":false}";
 		//查询失败
+		DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:S");
+		String now = format2.format(new Date());
 		if(queryResult.indexOf("errorMessage")>-1){
+			
+			String licenseNo = reguest.getParameter("licenseNo");
+			String carVin = reguest.getParameter("carVin");
+			String engineNo = reguest.getParameter("engineNo");
+			String renewalCarType = reguest.getParameter("renewalCarType");
+			interFaceService.insertOrderErrorInfo(order.getUser_order_id(), queryResult, now, "licenseNo:"+licenseNo+"--carVin:"+carVin+"--engineNo:"+engineNo+"--renewalCarType:"+renewalCarType);
+			
 			order.setContent(queryResult);
 			logger.error("【query error】orderid:"+order.getUser_order_id()+"--"+queryResult);
 			//如果查询失败，则需要退换次数
 			if(queryResult.indexOf("\"submitOrder\":1") == -1){
-				DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:S");
 				order.setIs_order_used("0");
 			}
 		}else{
@@ -155,8 +163,7 @@ public class TBXXInterFaceAction extends BaseAction {
 			logger.info("---query start--- 查询成功,更新订单表");
 		}
 		responseWriter(queryResult);
-		DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:S");
-		order.setOrder_usetime(format2.format(new Date()));
+		order.setOrder_usetime(now);
 		order.setContent(queryResult);
 		interFaceService.updateOrderBaseInfo(order);
 		interFaceService.updateOrderContentInfo(order);

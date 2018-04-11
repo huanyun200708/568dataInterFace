@@ -50,6 +50,9 @@
 						<dd page="${pageContext.request.contextPath}/page/TBinterfacemgt.jsp">
 							<a href="javascript:;">投保信息查询接口</a>
 						</dd>
+						<dd page="${pageContext.request.contextPath}/page/CXinterfacemgt.jsp">
+							<a href="javascript:;">出险信息查询接口</a>
+						</dd>
 					</dl>
 				</li>
 				<li class="layui-nav-item " page="${pageContext.request.contextPath}/page/userManage.jsp">

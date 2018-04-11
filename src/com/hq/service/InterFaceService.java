@@ -29,4 +29,7 @@ public interface InterFaceService {
 	Map<String, String> getInterFaceUseById(String id, String interfaceType);
 
 	Map<String, String> getInterFaceUseByUserKey(String userKey, String interfaceType);
+
+	boolean insertOrderErrorInfo(String orderid, String content,
+			String order_usetime, String query_condition);
 }

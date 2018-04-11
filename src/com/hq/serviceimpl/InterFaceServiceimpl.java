@@ -124,6 +124,26 @@ public class InterFaceServiceimpl implements InterFaceService {
 		}
 		return result;
 	}
+	
+	@Override
+    public boolean insertOrderErrorInfo(String orderid, String content,String order_usetime,String query_condition) {
+		boolean result = false;
+		String sql = "INSERT INTO 568db.external_interface_order_error (orderid, content, order_usetime,query_condition)  VALUES ( ?,?,?,? )";
+		Connection connection =  dao.getDBConnection();
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, orderid);
+			ps.setString(2, content);
+			ps.setString(3, order_usetime);
+			ps.setString(4, query_condition);
+			result = ps.executeUpdate() > 0;
+			dao.closeStatement(ps);
+			Dao.releaseConnection(connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    return result;
+	}
 
 	@Override
     public boolean updateOrderContentInfo(Order order) {

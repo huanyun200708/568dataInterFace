@@ -128,7 +128,7 @@ public class CLZT {
 		if (number.length() < 1) {
 			return "{\"errorMessage\":\"车牌为空\",\"success\":false}";
 		}
-		String cltype = request.getParameter("cltype");
+		String cltype = request.getParameter("type");
 
 		String clzturl = QueryAppKeyLib.cheliangzhuangtaiQueryUrl + "key=" + QueryAppKeyLib.cheliangzhuangtaiQueryAppKey + "&number=" + number;
 		String isUseSimpleCheLiangZhuangTaiQuery = PropertiesUtils.getPropertyValueByKey("isUseSimpleCheLiangZhuangTaiQuery");

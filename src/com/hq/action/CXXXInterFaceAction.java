@@ -137,10 +137,10 @@ public class CXXXInterFaceAction extends BaseAction {
 			responseWriter("{\"errorMessage\":\"查询次数不足，请及时充值！！！\",\"success\":false}");
 			return;
 		}
-		//String queryResult  = CXJL.queryResult(reguest, "");
+		String queryResult  = CXJL.queryResult(reguest, "");
 		//String queryResult  = "{\"result\":\"TEST CXXX SUCCESS\",\"success\":true}";
 		//String queryResult  = "{\"errorMessage\":\"TEST CXXX FAILE\",\"success\":false}";
-		String queryResult  = "{\"errorMessage\":\"TEST CXXX FAILE\",\"submitOrder\":1,\"success\":false}";
+		//String queryResult  = "{\"errorMessage\":\"TEST CXXX FAILE\",\"submitOrder\":1,\"success\":false}";
 		//查询失败
 		DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss:S");
 		String now = format2.format(new Date());
